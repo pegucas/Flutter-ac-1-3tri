@@ -4,20 +4,49 @@ import 'tela_secundaria.dart';
 class TelaInicial extends StatelessWidget {
   TelaInicial({super.key});
 
-  final nomecap = TextEditingController();
+  final nomecapitao = TextEditingController();
   final tripulacao = TextEditingController();
   final distancia = TextEditingController();
 
+  
+
   void abrirSegundaTela(BuildContext context) {
-    Navigator.push(
+    final nomecap = nomecapitao.text.trim();
+    final trip = int.tryParse(tripulacao.text) ?? 0;
+    final dist = double.tryParse(distancia.text) ?? 0;
+
+    if (nomecap.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("O nome do capitão não pode ser vazio (Voce não é o Orlandes Voador Espacial)"),
+        ),
+      );
+      return;
+    }
+    else if (trip <= 0){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("A tripulação é menor ou igual a 0 mude ela (Pera tu tem um morto? E voce não consta?)"))
+      );
+      return;
+    }
+    else if (dist <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("A distancia é menor ou igual a 0 (Vai andando ou entra no buraco negro logo de uma vez)"),
+        ),
+      );
+      return;
+    }
+    
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) =>
             SegundaTela(
-              nomecap: nomecap.text,
-              tripulacao: int.parse(tripulacao.text), 
-              distancia: distancia.text
-              ),
+              nomecap: nomecap,
+              trip: trip,
+              dist:  dist,
+            ),
       ),
     );
   }
@@ -25,13 +54,14 @@ class TelaInicial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tela Inicial")),
+      appBar: AppBar(title: const Text("Calculador estupidamente complexa de foguetes")),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+
             TextField(
-              controller: nomecap,
+              controller: nomecapitao,
               decoration: const InputDecoration(
                 labelText: "Digite o nome do capitão: ",
               ),
@@ -57,7 +87,7 @@ class TelaInicial extends StatelessWidget {
               onPressed: () {
                 abrirSegundaTela(context);
               },
-              child: const Text("Enviar"),
+              child: const Text("Ir para recursos"),
             ),
           ],
         ),
