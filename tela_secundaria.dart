@@ -1,59 +1,52 @@
-import 'dart:ffi';
+  import 'package:flutter/material.dart';
+  import 'tela_terciaria.dart';
 
-import 'package:flutter/material.dart';
-import 'tela_terciaria.dart';
+  class SegundaTela extends StatelessWidget {
+    final String nomecap;
+    final int trip;
+    final double dist;
+    final diasViagem = TextEditingController();
+    final custoCombustivel = TextEditingController();
 
-class SegundaTela extends StatelessWidget {
-  final String nomecap;
-  final Int tripulacao;
-  final Double distancia;
+    SegundaTela({super.key, required this.nomecap, required this.trip, required this.dist});
 
-  const SegundaTela({super.key, required this.nomecap, required this.tripulacao, required this.distancia});
+    void seguir(BuildContext context) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => TelaTerciaria()),
+      );
+    }
 
-  void voltarTela(BuildContext context) {
-    Navigator.pop(context);
-  }
+    void contas(){
 
-  void seguir(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => TelaTerciaria()),
-    );
-  }
+    }
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: const Text("O MY GOD GASOSA TA CARA")),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Segunda Tela")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Nome do Hotel: $nomecap", style: const TextStyle(fontSize: 25)),
-
-            Text(
-              "Quantidade de Diarias: $tripulacao",
-              style: const TextStyle(fontSize: 25),
+              TextField(
+              controller: diasViagem,
+              decoration: const InputDecoration(
+                labelText: "Digite os dias estimados para essa viagem: ",
+              ),
             ),
-
             const SizedBox(height: 20),
 
-            ElevatedButton(
-              onPressed: () {
-                voltarTela(context);
-              },
-              child: const Text("Voltar"),
+            TextField(
+              controller: custoCombustivel,
+              decoration: const InputDecoration(
+                labelText: "Digite o custo de combustivel espacial em dolar hoje: ",
+              ),
             ),
-
-            ElevatedButton(
-              onPressed: () {
-                seguir(context);
-              },
-              child: const Text("Prosseguir"),
-            ),
-          ],
+            const SizedBox(height: 20),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
